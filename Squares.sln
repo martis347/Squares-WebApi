@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squares.WebApi", "src\Squar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squares.Contracts", "src\Squares.Contracts\Squares.Contracts.csproj", "{6AEA9099-04B9-4FFC-8344-BB5D7666C1C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squares.Handlers", "Squares.Handlers\Squares.Handlers.csproj", "{60AA9F80-DF8A-4B5F-9648-1A6306C55980}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squares.Handlers", "src\Squares.Handlers\Squares.Handlers.csproj", "{60AA9F80-DF8A-4B5F-9648-1A6306C55980}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
