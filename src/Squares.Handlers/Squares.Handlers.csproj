@@ -53,7 +53,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Squares.Contracts\Squares.Contracts.csproj">
+    <ProjectReference Include="..\Squares.Contracts\Squares.Contracts.csproj">
       <Project>{6aea9099-04b9-4ffc-8344-bb5d7666c1c2}</Project>
       <Name>Squares.Contracts</Name>
     </ProjectReference>

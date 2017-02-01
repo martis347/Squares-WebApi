@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squares.Contracts", "src\Sq
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squares.Handlers", "src\Squares.Handlers\Squares.Handlers.csproj", "{60AA9F80-DF8A-4B5F-9648-1A6306C55980}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squares.Storage.Client", "src\Squares.Storage.Client\Squares.Storage.Client.csproj", "{EFB225F7-5FD9-4F1E-A9DE-BFAC2F297044}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{60AA9F80-DF8A-4B5F-9648-1A6306C55980}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60AA9F80-DF8A-4B5F-9648-1A6306C55980}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60AA9F80-DF8A-4B5F-9648-1A6306C55980}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFB225F7-5FD9-4F1E-A9DE-BFAC2F297044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFB225F7-5FD9-4F1E-A9DE-BFAC2F297044}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFB225F7-5FD9-4F1E-A9DE-BFAC2F297044}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFB225F7-5FD9-4F1E-A9DE-BFAC2F297044}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

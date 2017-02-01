@@ -1,5 +1,4 @@
-﻿using Squares.Contracts;
-using Squares.Contracts.Lists.CreateList;
+﻿using Squares.Contracts.Lists.CreateList;
 
 namespace Squares.Handlers.ListsHandlers
 {

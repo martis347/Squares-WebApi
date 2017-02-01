@@ -1,4 +1,6 @@
-﻿namespace Squares.Contracts.Squares
+﻿using Squares.Contracts.Points;
+
+namespace Squares.Contracts.Squares
 {
     public class Square
     {

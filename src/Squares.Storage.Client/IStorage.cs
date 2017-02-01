@@ -7,7 +7,7 @@ namespace Squares.Storage.Client
         PointsList RetrieveList(string listName);
         bool RemoveList(string listName);
         bool CreateList(string listName);
-        bool AddToList(PointsList points);
-        bool RemoveFromList(PointsList points);
+        bool AddToList(PointsList points, string listName);
+        int RemoveFromList(PointsList points, string listName);
     }
 }

@@ -79,8 +79,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Squares.Handlers\Squares.Handlers.csproj">
-      <Project>{60AA9F80-DF8A-4B5F-9648-1A6306C55980}</Project>
+    <ProjectReference Include="..\Squares.Handlers\Squares.Handlers.csproj">
+      <Project>{60aa9f80-df8a-4b5f-9648-1a6306c55980}</Project>
       <Name>Squares.Handlers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Squares.WebApi\Squares.WebApi.csproj">
