@@ -1,0 +1,41 @@
+Add point(s) to the list
+PUT
+<..>/api/points
+Request
+{
+	"listName": "list1",
+	"points" : 
+	[{
+		"x": 5,
+		"y": 7
+	}]
+}
+
+Add points file to the list
+PUT
+<..>/api/points/file
+Request
+{
+	file?
+}
+-----------------------------------------------------------------
+
+Remove a point
+DELETE
+<..>/api/points
+{
+	"listName": "list1",
+	"points" :  //if points not given - clear up all list
+	{
+		"x": 5,
+		"y": 7
+	}
+}
+-----------------------------------------------------------------
+
+See a paginated list of all entered/imported points
+GET
+<..>/api/points/{listName} 
+Optional URL parameters: 
+	sort={asc/desc} (default asc) 
+	pageSize={int} (default 20)

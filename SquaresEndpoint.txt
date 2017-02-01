@@ -1,0 +1,5 @@
+Calculate number of squares
+GET 
+<..>/api/squares/{listName}
+Optional URL parameters: 
+	pageSize={int} (default 20)

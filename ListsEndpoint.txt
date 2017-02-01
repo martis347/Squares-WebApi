@@ -1,0 +1,20 @@
+Get a list of all lists
+GET
+<..>/api/lists/
+Optional URL parameters: 
+	sort={asc/desc} (default none) 
+---------------------------------------------------
+
+Create a new list
+POST
+<..>/api/lists/
+Request
+{
+	"name": "list1"
+}
+
+---------------------------------------------------
+
+Delete existing list
+Delete
+<..>/api/lists/{listName}
