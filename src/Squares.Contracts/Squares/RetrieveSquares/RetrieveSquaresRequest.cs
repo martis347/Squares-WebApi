@@ -1,6 +1,6 @@
-﻿namespace Squares.Contracts
+﻿namespace Squares.Contracts.Squares.RetrieveSquares
 {
-    public class RetrieveSquaresRequest
+    public class RetrieveSquaresRequest : BaseRequest
     {
         
     }

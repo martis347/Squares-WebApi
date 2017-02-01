@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 
 namespace Squares
 {
@@ -6,9 +7,11 @@ namespace Squares
     {
         static void Main(string[] args)
         {
-            var serviceHost = new ServiceHost("http://+:1069/");
+            var serviceUrl = ConfigurationManager.AppSettings["WebApiServiceUrl"];
+            var serviceHost = new ServiceHost(serviceUrl);
             serviceHost.Start();
-
+            
+            Console.WriteLine($"Web api service started. Url: {serviceUrl}");
             Console.ReadLine();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Squares.Handlers.DI;
 
 namespace Squares.DI
 {
@@ -16,6 +17,7 @@ namespace Squares.DI
             var builder = new ContainerBuilder();
 
             builder.RegisterModule<WebApiModule>();
+            builder.RegisterModule<HandlersModule>();
 
             builder.RegisterType<Program>()
                 .AsSelf()

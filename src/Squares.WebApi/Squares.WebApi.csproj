@@ -97,6 +97,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Squares.Handlers\Squares.Handlers.csproj">
+      <Project>{60aa9f80-df8a-4b5f-9648-1a6306c55980}</Project>
+      <Name>Squares.Handlers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Squares.Contracts\Squares.Contracts.csproj">
       <Project>{6aea9099-04b9-4ffc-8344-bb5d7666c1c2}</Project>
       <Name>Squares.Contracts</Name>

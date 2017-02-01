@@ -1,6 +1,6 @@
-﻿namespace Squares.Contracts.RetrievePoints
+﻿namespace Squares.Contracts.Points.RetrievePoints
 {
-    public class RetrievePointsRequest
+    public class RetrievePointsRequest : BaseRequest
     {
         
     }

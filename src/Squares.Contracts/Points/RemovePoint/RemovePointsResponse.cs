@@ -1,6 +1,6 @@
-﻿namespace Squares.Contracts
+﻿namespace Squares.Contracts.Points.RemovePoint
 {
-    public class RemovePointResponse
+    public class RemovePointResponse : BaseResponse
     {
         
     }

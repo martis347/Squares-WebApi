@@ -1,6 +1,6 @@
-﻿namespace Squares.Contracts.RetrievePoints
+﻿namespace Squares.Contracts.Points.RetrievePoints
 {
-    public class RetrievePointsResponse
+    public class RetrievePointsResponse : BaseResponse
     {
         
     }

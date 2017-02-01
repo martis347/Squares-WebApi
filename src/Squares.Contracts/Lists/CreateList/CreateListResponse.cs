@@ -1,6 +1,6 @@
 ﻿namespace Squares.Contracts.Lists.CreateList
 {
-    public class CreateListResponse
+    public class CreateListResponse : BaseResponse
     {
 
     }

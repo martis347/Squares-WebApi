@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squares", "Squares\Squares.csproj", "{FD9BC23F-1DAF-4937-AB8C-6DF1885383AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squares", "src\Squares\Squares.csproj", "{FD9BC23F-1DAF-4937-AB8C-6DF1885383AE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squares.WebApi", "src\Squares.WebApi\Squares.WebApi.csproj", "{49086245-01CC-43D2-99F7-AF110E34F399}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squares.Contracts", "src\Squares.Contracts\Squares.Contracts.csproj", "{6AEA9099-04B9-4FFC-8344-BB5D7666C1C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squares.Handlers", "Squares.Handlers\Squares.Handlers.csproj", "{60AA9F80-DF8A-4B5F-9648-1A6306C55980}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{6AEA9099-04B9-4FFC-8344-BB5D7666C1C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AEA9099-04B9-4FFC-8344-BB5D7666C1C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AEA9099-04B9-4FFC-8344-BB5D7666C1C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60AA9F80-DF8A-4B5F-9648-1A6306C55980}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60AA9F80-DF8A-4B5F-9648-1A6306C55980}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60AA9F80-DF8A-4B5F-9648-1A6306C55980}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60AA9F80-DF8A-4B5F-9648-1A6306C55980}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

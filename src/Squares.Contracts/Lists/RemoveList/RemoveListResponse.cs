@@ -1,6 +1,6 @@
 ﻿namespace Squares.Contracts.Lists.RemoveList
 {
-    public class RemoveListResponse
+    public class RemoveListResponse : BaseResponse
     {
         
     }

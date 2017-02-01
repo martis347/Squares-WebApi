@@ -50,6 +50,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -78,7 +79,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Squares.WebApi\Squares.WebApi.csproj">
+    <ProjectReference Include="..\..\Squares.Handlers\Squares.Handlers.csproj">
+      <Project>{60AA9F80-DF8A-4B5F-9648-1A6306C55980}</Project>
+      <Name>Squares.Handlers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Squares.WebApi\Squares.WebApi.csproj">
       <Project>{49086245-01cc-43d2-99f7-af110e34f399}</Project>
       <Name>Squares.WebApi</Name>
     </ProjectReference>

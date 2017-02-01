@@ -1,6 +1,6 @@
-﻿namespace Squares.Contracts.ImportPoints
+﻿namespace Squares.Contracts.Points.AddPoints
 {
-    public class ImportPointsRequest
+    public class ImportPointsRequest : BaseRequest
     {
         
     }
