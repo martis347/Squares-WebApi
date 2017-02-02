@@ -2,7 +2,7 @@ Get a list of all lists
 GET
 <..>/api/lists/
 Optional URL parameters: 
-	sort={asc/desc} (default none) 
+	sort={asc/desc} (default asc) 
 ---------------------------------------------------
 
 Create a new list

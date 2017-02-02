@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Squares.Contracts.Points;
 using Squares.Contracts.Squares;
 using Squares.Contracts.Squares.RetrieveSquares;
@@ -25,6 +26,66 @@ namespace Squares.Handlers.SquaresHandlers
             {
                 Squares = new List<Square>
                 {
+                    new Square
+                    {
+                        Points = new []
+                        {
+                            new Point("0 0"),
+                            new Point("0 1"),
+                            new Point("1 0"),
+                            new Point("1 1"),
+                        }
+                    },
+                    new Square
+                    {
+                        Points = new []
+                        {
+                            new Point("0 0"),
+                            new Point("0 1"),
+                            new Point("1 0"),
+                            new Point("1 1"),
+                        }
+                    },
+                    new Square
+                    {
+                        Points = new []
+                        {
+                            new Point("0 0"),
+                            new Point("0 1"),
+                            new Point("1 0"),
+                            new Point("1 1"),
+                        }
+                    },
+                    new Square
+                    {
+                        Points = new []
+                        {
+                            new Point("0 0"),
+                            new Point("0 1"),
+                            new Point("1 0"),
+                            new Point("1 1"),
+                        }
+                    },
+                    new Square
+                    {
+                        Points = new []
+                        {
+                            new Point("0 0"),
+                            new Point("0 1"),
+                            new Point("1 0"),
+                            new Point("1 1"),
+                        }
+                    },
+                    new Square
+                    {
+                        Points = new []
+                        {
+                            new Point("0 0"),
+                            new Point("0 1"),
+                            new Point("1 0"),
+                            new Point("1 1"),
+                        }
+                    },
                     new Square
                     {
                         Points = new []

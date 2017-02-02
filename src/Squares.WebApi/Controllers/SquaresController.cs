@@ -14,12 +14,15 @@ namespace Squares.WebApi.Controllers
 
         [HttpGet]
         [Route("{name}")]
-        public HttpResponseMessage GetSquares(string name)
+        public HttpResponseMessage GetSquares(string name, [FromUri] int pageSize = 20, [FromUri] int pageNumber = 1)
         {
             var request = new RetrieveSquaresRequest
             {
-                ListName = name
+                ListName = name,
+                PageSize = pageSize,
+                PageNumber = pageNumber
             };
+
             var handler = Container.Resolve<IHandler<RetrieveSquaresRequest, RetrieveSquaresResponse>>();
             var result = handler.Handle(request);
 

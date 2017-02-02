@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Linq;
 using Squares.Contracts.Lists.RetrieveLists;
 using Squares.Storage.Client;
 
@@ -18,15 +20,12 @@ namespace Squares.Handlers.ListsHandlers
 
         public override RetrieveListsResponse HandleCore(RetrieveListsRequest request)
         {
-            var result = new RetrieveListsResponse();
-            if (request.ListName == null)
+            var result = new RetrieveListsResponse
             {
-                result.ListNames = _storage.RetrieveListNames();
-            }
-            else
-            {
-                result.Points = _storage.RetrieveList(request.ListName);
-            }
+                ListNames = request.SortDirection == ListSortDirection.Ascending
+                    ? _storage.RetrieveListNames().OrderBy(c => c).ToList()
+                    : _storage.RetrieveListNames().OrderByDescending(c => c).ToList()
+            };
 
             return result;
         }

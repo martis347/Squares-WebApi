@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.ComponentModel;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Autofac;
@@ -29,9 +30,13 @@ namespace Squares.WebApi.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage GetLists()
+        public HttpResponseMessage GetLists([FromUri] string sort = "asc")
         {
-            var request = new RetrieveListsRequest();
+            var request = new RetrieveListsRequest
+            {
+                SortDirection = sort == "desc" ? ListSortDirection.Descending : ListSortDirection.Ascending
+            };
+            
             var handler = Container.Resolve<IHandler<RetrieveListsRequest, RetrieveListsResponse>>();
             var response = handler.Handle(request);
 

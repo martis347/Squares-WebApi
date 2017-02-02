@@ -38,4 +38,5 @@ GET
 <..>/api/points/{listName} 
 Optional URL parameters: 
 	sort={asc/desc} (default asc) 
-	pageSize={int} (default 20)
+	pageSize={int}  (default 20)
+	page={int}      (default 1)

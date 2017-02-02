@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Squares.Contracts.Points.RetrievePoints
 {
@@ -6,5 +7,8 @@ namespace Squares.Contracts.Points.RetrievePoints
     {
         [Required]
         public string ListName { get; set; }
+        public ListSortDirection SortDirection { get; set; } = ListSortDirection.Ascending;
+        public int PageSize { get; set; } = 20;
+        public int PageNumber { get; set; } = 1;
     }
 }

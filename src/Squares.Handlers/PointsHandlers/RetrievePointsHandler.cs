@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Linq;
 using Squares.Contracts.Points.RetrievePoints;
 using Squares.Storage.Client;
 
@@ -20,7 +22,9 @@ namespace Squares.Handlers.PointsHandlers
         {
             var result = new RetrievePointsResponse
             {
-                Points = _storage.RetrieveList(request.ListName)
+                Points = request.SortDirection == ListSortDirection.Ascending
+                    ? _storage.RetrieveList(request.ListName).OrderBy(c => c.X).ThenBy(c => c.Y).ToList()
+                    : _storage.RetrieveList(request.ListName).OrderByDescending(c => c.X).ThenBy(c => c.Y).ToList()
             };
 
             return result;

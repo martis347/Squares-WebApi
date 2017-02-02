@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.ComponentModel;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Autofac;
@@ -16,11 +17,14 @@ namespace Squares.WebApi.Controllers
 
         [HttpGet]
         [Route("{name}")]
-        public HttpResponseMessage GetPoints(string name)
+        public HttpResponseMessage GetPoints(string name, [FromUri] string sort = "asc", [FromUri] int pageSize = 20, [FromUri] int pageNumber = 1)
         {
             var request = new RetrievePointsRequest
             {
-                ListName = name
+                ListName = name,
+                SortDirection = sort == "desc" ? ListSortDirection.Descending : ListSortDirection.Ascending,
+                PageSize = pageSize,
+                PageNumber = pageNumber
             };
             var handler = Container.Resolve<IHandler<RetrievePointsRequest, RetrievePointsResponse>>();
             var result = handler.Handle(request);
