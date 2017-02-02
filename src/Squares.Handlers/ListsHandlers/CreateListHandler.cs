@@ -1,14 +1,15 @@
 ﻿using System;
 using Squares.Contracts.Lists.CreateList;
+using Squares.Contracts.Points;
 using Squares.Storage.Client;
 
 namespace Squares.Handlers.ListsHandlers
 {
     public class CreateListHandler : BaseHandler<CreateListRequest, CreateListResponse>
     {
-        private readonly IStorage _storage;
+        private readonly IStorage<Point> _storage;
 
-        public CreateListHandler(IStorage storage)
+        public CreateListHandler(IStorage<Point> storage)
         {
             if (storage == null)
                 throw new ArgumentNullException(nameof(storage));

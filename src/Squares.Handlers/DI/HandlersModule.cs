@@ -9,7 +9,6 @@ using Squares.Contracts.Squares.RetrieveSquares;
 using Squares.Handlers.ListsHandlers;
 using Squares.Handlers.PointsHandlers;
 using Squares.Handlers.SquaresHandlers;
-using Squares.Storage.Client;
 
 namespace Squares.Handlers.DI
 {
@@ -24,32 +23,39 @@ namespace Squares.Handlers.DI
 
         private void RegisterSquaresHandlers(ContainerBuilder builder)
         {
-            builder.Register(c => new RetrieveSquaresHandler(c.Resolve<IStorage>()))
-                .As<IHandler<RetrieveSquaresRequest, RetrieveSquaresResponse>>();
+            builder.RegisterType<RetrieveSquaresHandler>()
+                .As<IHandler<RetrieveSquaresRequest, RetrieveSquaresResponse>>()
+                .PropertiesAutowired();
         }
 
         private void RegisterListHandlers(ContainerBuilder builder)
         {
-            builder.Register(c => new CreateListHandler(c.Resolve<IStorage>()))
-                .As<IHandler<CreateListRequest, CreateListResponse>>();
+            builder.RegisterType<CreateListHandler>()
+                .As<IHandler<CreateListRequest, CreateListResponse>>()
+                .PropertiesAutowired();
 
-            builder.Register(c => new RemoveListHandler(c.Resolve<IStorage>()))
-                .As<IHandler<RemoveListRequest, RemoveListResponse>>();
+            builder.RegisterType<RemoveListHandler>()
+                .As<IHandler<RemoveListRequest, RemoveListResponse>>()
+                .PropertiesAutowired();
 
-            builder.Register(c => new RetrieveListsHandler(c.Resolve<IStorage>()))
-                .As<IHandler<RetrieveListsRequest, RetrieveListsResponse>>();
+            builder.RegisterType<RetrieveListsHandler>()
+                .As<IHandler<RetrieveListsRequest, RetrieveListsResponse>>()
+                .PropertiesAutowired();
         }
 
         private void RegisterPointsHandlers(ContainerBuilder builder)
         {
-            builder.Register(c => new AddPointsHandler(c.Resolve<IStorage>()))
-                .As<IHandler<AddPointsRequest, AddPointsResponse>>();
+            builder.RegisterType<AddPointsHandler>()
+                .As<IHandler<AddPointsRequest, AddPointsResponse>>()
+                .PropertiesAutowired();
 
-            builder.Register(c => new RemovePointsHandler(c.Resolve<IStorage>()))
-                .As<IHandler<RemovePointsRequest, RemovePointsResponse>>();
+            builder.RegisterType<RemovePointsHandler>()
+                .As<IHandler<RemovePointsRequest, RemovePointsResponse>>()
+                .PropertiesAutowired();
 
-            builder.Register(c => new RetrievePointsHandler(c.Resolve<IStorage>()))
-                .As<IHandler<RetrievePointsRequest, RetrievePointsResponse>>();
+            builder.RegisterType<RetrievePointsHandler>()
+                .As<IHandler<RetrievePointsRequest, RetrievePointsResponse>>()
+                .PropertiesAutowired();
         }
     }
 }

@@ -1,14 +1,15 @@
 ﻿using System;
 using Squares.Contracts.Lists.RemoveList;
+using Squares.Contracts.Points;
 using Squares.Storage.Client;
 
 namespace Squares.Handlers.ListsHandlers
 {
     public class RemoveListHandler : BaseHandler<RemoveListRequest, RemoveListResponse>
     {
-        private readonly IStorage _storage;
+        private readonly IStorage<Point> _storage;
 
-        public RemoveListHandler(IStorage storage)
+        public RemoveListHandler(IStorage<Point> storage)
         {
             if (storage == null)
                 throw new ArgumentNullException(nameof(storage));

@@ -2,15 +2,16 @@
 using System.ComponentModel;
 using System.Linq;
 using Squares.Contracts.Lists.RetrieveLists;
+using Squares.Contracts.Points;
 using Squares.Storage.Client;
 
 namespace Squares.Handlers.ListsHandlers
 {
     public class RetrieveListsHandler : BaseHandler<RetrieveListsRequest, RetrieveListsResponse>
     {
-        private readonly IStorage _storage;
+        private readonly IStorage<Point> _storage;
 
-        public RetrieveListsHandler(IStorage storage)
+        public RetrieveListsHandler(IStorage<Point> storage)
         {
             if (storage == null)
                 throw new ArgumentNullException(nameof(storage));

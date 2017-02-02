@@ -3,51 +3,57 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using Squares.Contracts;
 using Squares.Contracts.Exceptions;
-using Squares.Contracts.Lists;
-using Squares.Contracts.Points;
 
 namespace Squares.Storage.Client
 {
-    public class FileStorage : IStorage
+    public class FileStorage<T> : IStorage<T>
+        where T : Listable, new()
     {
         private volatile IDictionary<string, FileInfo> _fileLocks;
+        private readonly string _fileLocation;
+        private readonly int _fileMaxRows;
 
-        private static string _fileLocation;
-        private static int _fileMaxRows;
-
-        public FileStorage()
+        public FileStorage(string fileLocation)
         {
-            _fileLocation = ConfigurationManager.AppSettings["FileLocation"];
-            Int32.TryParse(ConfigurationManager.AppSettings["FileMaxRows"], out _fileMaxRows);
+            if (fileLocation == null)
+                throw new ArgumentNullException(nameof(fileLocation));
 
-            if (_fileLocation == null)
-                throw new Exception("FileLocation not defined in appSettings");
+            _fileLocation = fileLocation;
+
+            Int32.TryParse(ConfigurationManager.AppSettings["FileMaxRows"], out _fileMaxRows);
             if (_fileMaxRows == 0)
                 throw new Exception("FileMaxRows not defined in appSettings");
 
             _fileLocks = ReadExistingFiles();
         }
 
-        public IList<Point> RetrieveList(string listName)
+        public IList<T> RetrieveItems(string listName, int pageSize, int pageNumber)
         {
-            var result = new List<Point>();
             if (!_fileLocks.ContainsKey(listName))
             {
                 throw new FileStorageException("List with given name does not exist.", "listNotFound");
             }
+
+            var result = new List<T>();
+            int startingLineNumber = pageSize * (pageNumber - 1);
 
             lock (_fileLocks[listName])
             {
                 using (Stream fs = new FileStream($"{_fileLocation}{listName}", FileMode.Open, FileAccess.Read, FileShare.None))
                 using (StreamReader sr = new StreamReader(fs))
                 {
-                    while (!sr.EndOfStream)
+                    for (int i = 0; i < startingLineNumber; i++)
+                    {
+                        sr.ReadLine();
+                    }
+                    for (int i = 0; i < pageSize; i++)
                     {
                         string line = sr.ReadLine();
                         if (line != null)
                         {
-                            result.Add(new Point(line));
+                            result.Add(Activator.CreateInstance(typeof(T), line) as T);
                         }
                     }
                 }
@@ -89,14 +95,13 @@ namespace Squares.Storage.Client
             {
                 using (File.Create($"{_fileLocation}{listName}"))
                 {
-                    _fileLocks.Add(listName, new FileInfo());
                 }
             }
 
             return true;
         }
 
-        public bool AddToList(IList<Point> points, string listName)
+        public bool AddToList(IList<T> items, string listName)
         {
             if (!_fileLocks.ContainsKey(listName))
             {
@@ -106,12 +111,12 @@ namespace Squares.Storage.Client
             lock (_fileLocks[listName])
             {
                 var lines = File.ReadAllLines($"{_fileLocation}{listName}");
-                var pointLines = points.Select(point => $"{point.X} {point.Y}");
-                var existingLines = pointLines.Intersect(lines).ToList();
+                var itemLines = items.Select(item => $"{item.ToString()}");
+                var existingLines = itemLines.Intersect(lines).ToList();
                         
                 if (existingLines.Any())
                 {
-                    throw new FileStorageException($"Point(s): {existingLines.Aggregate((i, j) =>$@"{{{i}}} {{{j}}}")} already exist in the list", "pointsExist");
+                    throw new FileStorageException($"Items(s): {existingLines.Aggregate((i, j) =>$@"{{{i}}} {{{j}}}")} already exist in the list", "itemsExist");
                 }
 
                 int writtenLinesCount = 0;
@@ -120,9 +125,9 @@ namespace Squares.Storage.Client
                 using (Stream fs = new FileStream($"{_fileLocation}{listName}", FileMode.Append, FileAccess.Write, FileShare.None))
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    foreach (var point in points)
+                    foreach (var item in items)
                     {
-                        sw.WriteLine($"{point.X} {point.Y}");
+                        sw.WriteLine($"{item}");
                         writtenLinesCount++;
 
                         if (existingLinesCount + writtenLinesCount >= _fileMaxRows)
@@ -138,7 +143,7 @@ namespace Squares.Storage.Client
             return true;
         }
 
-        public int RemoveFromList(IList<Point> points, string listName)
+        public int RemoveFromList(IList<T> items, string listName)
         {
             if (!_fileLocks.ContainsKey(listName))
             {
@@ -157,10 +162,10 @@ namespace Squares.Storage.Client
                     while (!sr.EndOfStream)
                     {
                         string line = sr.ReadLine();
-                        foreach (Point point in points)
+                        foreach (Listable item in items)
                         {
-                            string pointString = $"{point.X} {point.Y}";
-                            if (line == pointString)
+                            string itemString = $"{item}";
+                            if (line == itemString)
                             {
                                 linesToDelete.Add(line);
                                 break;

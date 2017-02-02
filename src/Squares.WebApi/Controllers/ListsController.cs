@@ -16,20 +16,6 @@ namespace Squares.WebApi.Controllers
         public ILifetimeScope Container { get; set; }
 
         [HttpGet]
-        [Route("{name}")]
-        public HttpResponseMessage GetList(string name)
-        {
-            var request = new RetrieveListsRequest
-            {
-                ListName = name
-            };
-            var handler = Container.Resolve<IHandler<RetrieveListsRequest, RetrieveListsResponse>>();
-            var response = handler.Handle(request);
-
-            return Request.CreateResponse(HttpStatusCode.OK, response);
-        }
-
-        [HttpGet]
         public HttpResponseMessage GetLists([FromUri] string sort = "asc")
         {
             var request = new RetrieveListsRequest

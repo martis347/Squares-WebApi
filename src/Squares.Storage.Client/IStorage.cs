@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
-using Squares.Contracts.Points;
+using Squares.Contracts;
 
 namespace Squares.Storage.Client
 {
-    public interface IStorage
+    public interface IStorage<T>
+        where T : Listable , new ()
     {
         IList<string> RetrieveListNames();
-        IList<Point> RetrieveList(string listName);
+        IList<T> RetrieveItems(string listName, int pageSize, int pageNumber);
         bool RemoveList(string listName);
         bool CreateList(string listName);
-        bool AddToList(IList<Point> points, string listName);
-        int RemoveFromList(IList<Point> points, string listName);
+        bool AddToList(IList<T> points, string listName);
+        int RemoveFromList(IList<T> points, string listName);
     }
 }

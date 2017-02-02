@@ -1,4 +1,7 @@
-﻿using Autofac;
+﻿using System.Configuration;
+using Autofac;
+using Squares.Contracts.Points;
+using Squares.Contracts.Squares;
 
 namespace Squares.Storage.Client.DI
 {
@@ -6,9 +9,12 @@ namespace Squares.Storage.Client.DI
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<FileStorage>()
-                .As<IStorage>()
-                .PropertiesAutowired()
+            builder.Register(c => new FileStorage<Square>(ConfigurationManager.AppSettings["SquaresLocation"]))
+                .As<IStorage<Square>>()
+                .SingleInstance();
+
+            builder.Register(c => new FileStorage<Point>(ConfigurationManager.AppSettings["PointsLocation"]))
+                .As<IStorage<Point>>()
                 .SingleInstance();
         }
     }
