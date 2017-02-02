@@ -83,6 +83,10 @@
       <Project>{60aa9f80-df8a-4b5f-9648-1a6306c55980}</Project>
       <Name>Squares.Handlers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Squares.Storage.Client\Squares.Storage.Client.csproj">
+      <Project>{EFB225F7-5FD9-4F1E-A9DE-BFAC2F297044}</Project>
+      <Name>Squares.Storage.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Squares.WebApi\Squares.WebApi.csproj">
       <Project>{49086245-01cc-43d2-99f7-af110e34f399}</Project>
       <Name>Squares.WebApi</Name>

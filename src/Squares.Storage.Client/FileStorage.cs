@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using Squares.Contracts.Exceptions;
 using Squares.Contracts.Lists;
 using Squares.Contracts.Points;
@@ -10,13 +11,12 @@ namespace Squares.Storage.Client
 {
     public class FileStorage : IStorage
     {
-        private static readonly FileStorage FileStorageInstance = new FileStorage();
-        private readonly IDictionary<string, FileInfo> _fileLocks = new Dictionary<string, FileInfo>();
+        private volatile IDictionary<string, FileInfo> _fileLocks;
 
         private static string _fileLocation;
         private static int _fileMaxRows;
 
-        private FileStorage()
+        public FileStorage()
         {
             _fileLocation = ConfigurationManager.AppSettings["FileLocation"];
             Int32.TryParse(ConfigurationManager.AppSettings["FileMaxRows"], out _fileMaxRows);
@@ -25,24 +25,20 @@ namespace Squares.Storage.Client
                 throw new Exception("FileLocation not defined in appSettings");
             if (_fileMaxRows == 0)
                 throw new Exception("FileMaxRows not defined in appSettings");
-        }
 
-        public FileStorage GetInstance()
-        {
-            return FileStorageInstance;
+            _fileLocks = ReadExistingFiles();
         }
 
         public PointsList RetrieveList(string listName)
         {
             PointsList result = new PointsList { List = new List<Point>() };
+            if (!_fileLocks.ContainsKey(listName))
+            {
+                throw new FileStorageException("List with given name does not exist.", "listNotFound");
+            }
 
             lock (_fileLocks[listName])
             {
-                if (_fileLocks[listName] != null)
-                {
-                    throw new FileStorageException("List with given name does not exist.", "listNotFound");
-                }
-
                 using (Stream fs = new FileStream($"{_fileLocation}{listName}", FileMode.Open, FileAccess.Read, FileShare.None))
                 using (StreamReader sr = new StreamReader(fs))
                 {
@@ -54,15 +50,20 @@ namespace Squares.Storage.Client
             return result;
         }
 
+        public List<string> RetrieveListNames()
+        {
+            return _fileLocks.Keys.ToList();
+        }
+
         public bool RemoveList(string listName)
         {
+            if (!_fileLocks.ContainsKey(listName))
+            {
+                throw new FileStorageException("List with given name does not exist.", "listNotFound");
+            }
+
             lock (_fileLocks[listName])
             {
-                if (_fileLocks[listName] != null)
-                {
-                    throw new FileStorageException("List with given name does not exist.", "listNotFound");
-                }
-
                 File.Delete($"{_fileLocation}{listName}");
                 _fileLocks.Remove(listName);
 
@@ -73,29 +74,26 @@ namespace Squares.Storage.Client
 
         public bool CreateList(string listName)
         {
-            lock (_fileLocks[listName])
+            if (_fileLocks.ContainsKey(listName))
             {
-                if (_fileLocks[listName] == null)
-                {
-                    throw new FileStorageException("List with given name does not exist.", "listNotFound");
-                }
-
-                File.Create($"{_fileLocation}{listName}");
-                _fileLocks.Add(listName, new FileInfo());
+                throw new FileStorageException("List with given name already exists.", "listExists");
             }
+
+            File.Create($"{_fileLocation}{listName}");
+            _fileLocks.Add(listName, new FileInfo());
 
             return true;
         }
 
         public bool AddToList(PointsList points, string listName)
         {
+            if (!_fileLocks.ContainsKey(listName))
+            {
+                throw new FileStorageException("List with given name does not exist.", "listNotFound");
+            }
+
             lock (_fileLocks[listName])
             {
-                if (_fileLocks[listName] == null)
-                {
-                    throw new FileStorageException("List with given name does not exist.", "listNotFound");
-                }
-
                 int writtenLinesCount = 0;
                 int existingLinesCount = _fileLocks[listName].LinesCount;
 
@@ -122,15 +120,15 @@ namespace Squares.Storage.Client
 
         public int RemoveFromList(PointsList points, string listName)
         {
+            if (!_fileLocks.ContainsKey(listName))
+            {
+                throw new FileStorageException("List with given name does not exist.", "listNotFound");
+            }
+
             List<string> linesToDelete = new List<string>();
 
             lock (_fileLocks[listName])
             {
-                if (_fileLocks[listName] == null)
-                {
-                    throw new FileStorageException("List with given name does not exist.", "listNotFound");
-                }
-
                 using (Stream fsRead = new FileStream($"{_fileLocation}{listName}", FileMode.Open, FileAccess.Read, FileShare.None))
                 using (Stream fs2Write = new FileStream($"{_fileLocation}{listName}.temp", FileMode.Create, FileAccess.Write, FileShare.None))
                 using (StreamReader sr = new StreamReader(fsRead))
@@ -158,6 +156,20 @@ namespace Squares.Storage.Client
             }
 
             return linesToDelete.Count;
+        }
+
+        private Dictionary<string, FileInfo> ReadExistingFiles()
+        {
+            Dictionary<string, FileInfo> result = new Dictionary<string, FileInfo>();
+
+            var files = Directory.GetFiles(_fileLocation, "*").Select(Path.GetFileName);
+            foreach (var file in files)
+            {
+                var lineCount = File.ReadLines($"{_fileLocation}{file}").Count();
+                result.Add(file, new FileInfo {LinesCount = lineCount});
+            }
+
+            return result;
         }
     }
 }

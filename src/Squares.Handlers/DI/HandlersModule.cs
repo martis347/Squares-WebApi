@@ -3,6 +3,7 @@ using Squares.Contracts.Lists.CreateList;
 using Squares.Contracts.Lists.RemoveList;
 using Squares.Contracts.Lists.RetrieveLists;
 using Squares.Handlers.ListsHandlers;
+using Squares.Storage.Client;
 
 namespace Squares.Handlers.DI
 {
@@ -10,17 +11,14 @@ namespace Squares.Handlers.DI
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<CreateListHandler>()
-                .As<IHandler<CreateListRequest, CreateListResponse>>()
-                .PropertiesAutowired();
+            builder.Register(c => new CreateListHandler(c.Resolve<IStorage>()))
+                .As<IHandler<CreateListRequest, CreateListResponse>>();
 
-            builder.RegisterType<RemoveListHandler>()
-                .As<IHandler<RemoveListRequest, RemoveListResponse>>()
-                .PropertiesAutowired();
+            builder.Register(c => new RemoveListHandler(c.Resolve<IStorage>()))
+                .As<IHandler<RemoveListRequest, RemoveListResponse>>();
 
-            builder.RegisterType<RetrieveListsHandler>()
-                .As<IHandler<RetrieveListsRequest, RetrieveListsResponse>>()
-                .PropertiesAutowired();
+            builder.Register(c => new RetrieveListsHandler(c.Resolve<IStorage>()))
+                .As<IHandler<RetrieveListsRequest, RetrieveListsResponse>>();
         }
     }
 }

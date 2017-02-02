@@ -14,8 +14,9 @@ namespace Squares.WebApi.Controllers
         public ILifetimeScope Container { get; set; }
 
         [HttpGet]
-        public HttpResponseMessage GetLists(RetrieveListsRequest request)
+        public HttpResponseMessage GetLists(string name)
         {
+            var request = new RetrieveListsRequest();
             var handler = Container.Resolve<IHandler<RetrieveListsRequest, RetrieveListsResponse>>();
             handler.Handle(request);
 

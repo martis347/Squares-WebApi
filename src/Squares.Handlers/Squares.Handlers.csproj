@@ -57,10 +57,15 @@
       <Project>{6aea9099-04b9-4ffc-8344-bb5d7666c1c2}</Project>
       <Name>Squares.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Squares.Storage.Client\Squares.Storage.Client.csproj">
+      <Project>{EFB225F7-5FD9-4F1E-A9DE-BFAC2F297044}</Project>
+      <Name>Squares.Storage.Client</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PointsHandlers\" />
     <Folder Include="SquaresHandlers\" />
+    <Folder Include="Validators\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

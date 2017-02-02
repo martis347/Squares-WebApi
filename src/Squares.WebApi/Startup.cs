@@ -6,6 +6,7 @@ using Autofac.Integration.WebApi;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Owin;
+using Squares.WebApi.Filters;
 
 namespace Squares.WebApi
 {
@@ -34,7 +35,8 @@ namespace Squares.WebApi
             var configuration = new HttpConfiguration
             {
                 IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always,
-                DependencyResolver = new AutofacWebApiDependencyResolver(_container)
+                DependencyResolver = new AutofacWebApiDependencyResolver(_container),
+                Filters = { new ValidateModelAttribute()}
             };
 
             RegisterRoutes(configuration);
@@ -61,8 +63,8 @@ namespace Squares.WebApi
 
             configuration.Routes.MapHttpRoute(
                 name: "Default",
-                routeTemplate: "{controller}",
-                defaults: new { controller = "Default" },
+                routeTemplate: "{controller}/{id}",
+                defaults: new { controller = "Default", id = RouteParameter.Optional },
                 constraints: null
                 );
         }
