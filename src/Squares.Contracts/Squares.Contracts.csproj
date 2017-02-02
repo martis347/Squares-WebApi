@@ -47,7 +47,6 @@
     <Compile Include="Exceptions\FileStorageException.cs" />
     <Compile Include="Lists\CreateList\CreateListRequest.cs" />
     <Compile Include="Lists\CreateList\CreateListResponse.cs" />
-    <Compile Include="Lists\PointsList.cs" />
     <Compile Include="Lists\RemoveList\RemoveListRequest.cs" />
     <Compile Include="Lists\RemoveList\RemoveListResponse.cs" />
     <Compile Include="Points\Point.cs" />

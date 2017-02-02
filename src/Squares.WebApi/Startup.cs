@@ -43,22 +43,17 @@ namespace Squares.WebApi
                 }
             };
 
-            RegisterRoutes(configuration);
             RegisterFormatters(configuration);
+            RegisterRoutes(configuration);
             appBuilder.UseWebApi(configuration);
         }
 
         private void RegisterFormatters(HttpConfiguration configuration)
         {
-            configuration.Formatters.Add(new JsonMediaTypeFormatter
+            configuration.Formatters.JsonFormatter.SerializerSettings = new JsonSerializerSettings
             {
-                SerializerSettings =
-                {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                    MissingMemberHandling = MissingMemberHandling.Error,
-                    NullValueHandling = NullValueHandling.Ignore
-                }
-            });
+                NullValueHandling = NullValueHandling.Ignore
+            };
         }
 
         private static void RegisterRoutes(HttpConfiguration configuration)
@@ -67,8 +62,8 @@ namespace Squares.WebApi
 
             configuration.Routes.MapHttpRoute(
                 name: "Default",
-                routeTemplate: "{controller}/{id}",
-                defaults: new { controller = "Default", id = RouteParameter.Optional },
+                routeTemplate: "{controller}/",
+                defaults: new { controller = "Default" },
                 constraints: null
                 );
         }

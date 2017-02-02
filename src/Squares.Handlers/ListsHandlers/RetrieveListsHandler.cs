@@ -18,10 +18,17 @@ namespace Squares.Handlers.ListsHandlers
 
         public override RetrieveListsResponse HandleCore(RetrieveListsRequest request)
         {
-            return new RetrieveListsResponse
+            var result = new RetrieveListsResponse();
+            if (request.ListName == null)
             {
-                ListNames = _storage.RetrieveListNames()
-            };
+                result.ListNames = _storage.RetrieveListNames();
+            }
+            else
+            {
+                result.Points = _storage.RetrieveList(request.ListName);
+            }
+
+            return result;
         }
     }
 }

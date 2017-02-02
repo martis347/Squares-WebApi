@@ -2,5 +2,6 @@
 {
     public class RetrieveListsRequest : BaseRequest
     {
+        public string ListName { get; set; }
     }
 }

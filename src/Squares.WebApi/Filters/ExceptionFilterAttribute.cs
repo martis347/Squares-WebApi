@@ -13,19 +13,57 @@ namespace Squares.WebApi.Filters
             var storageException = context.Exception as FileStorageException;
             if (storageException != null)
             {
+                HttpResponseMessage response;
                 switch (storageException.Reason)
                 {
                     case "listNotFound":
-                        var response = new HttpResponseMessage
+                        response = new HttpResponseMessage
                         {
-                            Content = new ObjectContent<object>(new { storageException.Message, storageException.Reason }, new JsonMediaTypeFormatter())
+                            Content =
+                                new ObjectContent<object>(new {storageException.Message, storageException.Reason},
+                                    new JsonMediaTypeFormatter()),
+                            StatusCode = HttpStatusCode.NotFound
                         };
                         context.Response = response;
-                        break;
+                        return;
                     case "listSizeExceeded":
-                        context.Response = new HttpResponseMessage(HttpStatusCode.BadRequest);
-                        break;
-
+                        response = new HttpResponseMessage
+                        {
+                            Content =
+                                new ObjectContent<object>(new {storageException.Message, storageException.Reason},
+                                    new JsonMediaTypeFormatter()),
+                            StatusCode = HttpStatusCode.RequestEntityTooLarge
+                        };
+                        context.Response = response;
+                        return;
+                    case "pointsExist":
+                    case "listExists":
+                        response = new HttpResponseMessage
+                        {
+                            Content =
+                                new ObjectContent<object>(new { storageException.Message, storageException.Reason },
+                                    new JsonMediaTypeFormatter()),
+                            StatusCode = HttpStatusCode.Conflict
+                        };
+                        context.Response = response;
+                        return;
+                }
+            }
+            var badRequestException = context.Exception as BadRequestException;
+            if (badRequestException != null)
+            {
+                HttpResponseMessage response;
+                switch (badRequestException.Reason)
+                {
+                    case "invalidProperties":
+                    case "invalidFormat":
+                        response = new HttpResponseMessage
+                        {
+                            Content =new ObjectContent<object>(new {badRequestException.Message, badRequestException.Reason}, new JsonMediaTypeFormatter()),
+                            StatusCode = HttpStatusCode.BadRequest
+                        };
+                        context.Response = response;
+                        return;
                 }
             }
         }

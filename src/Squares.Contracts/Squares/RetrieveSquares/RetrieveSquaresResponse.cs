@@ -1,6 +1,9 @@
-﻿namespace Squares.Contracts.Squares.RetrieveSquares
+﻿using System.Collections.Generic;
+
+namespace Squares.Contracts.Squares.RetrieveSquares
 {
-    class RetrieveSquaresResponse : BaseResponse
+    public class RetrieveSquaresResponse : BaseResponse
     {
+        public List<Square> Squares { get; set; }
     }
 }

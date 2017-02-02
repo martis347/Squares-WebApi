@@ -9,27 +9,42 @@ using Squares.Handlers;
 
 namespace Squares.WebApi.Controllers
 {
+    [RoutePrefix("lists")]
     public class ListsController : ApiController
     {
         public ILifetimeScope Container { get; set; }
 
         [HttpGet]
-        public HttpResponseMessage GetLists(string name)
+        [Route("{name}")]
+        public HttpResponseMessage GetList(string name)
+        {
+            var request = new RetrieveListsRequest
+            {
+                ListName = name
+            };
+            var handler = Container.Resolve<IHandler<RetrieveListsRequest, RetrieveListsResponse>>();
+            var response = handler.Handle(request);
+
+            return Request.CreateResponse(HttpStatusCode.OK, response);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetLists()
         {
             var request = new RetrieveListsRequest();
             var handler = Container.Resolve<IHandler<RetrieveListsRequest, RetrieveListsResponse>>();
-            handler.Handle(request);
+            var response = handler.Handle(request);
 
-            return Request.CreateResponse(HttpStatusCode.OK, "");
+            return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
         [HttpPost]
         public HttpResponseMessage CreateList(CreateListRequest request)
         {
             var handler = Container.Resolve<IHandler<CreateListRequest, CreateListResponse>>();
-            handler.Handle(request);
+            var response = handler.Handle(request);
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.Created, response);
         }
 
         [HttpDelete]
@@ -38,7 +53,7 @@ namespace Squares.WebApi.Controllers
             var handler = Container.Resolve<IHandler<RemoveListRequest, RemoveListResponse>>();
             handler.Handle(request);
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.NoContent);
         }
     }
 }

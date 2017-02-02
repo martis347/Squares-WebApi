@@ -12,6 +12,10 @@ namespace Squares.Contracts.Points
             Y = Int32.Parse(values[1]);
         }
 
+        public Point()
+        {
+        }
+
         [Required]
         [Range(-5000, 5000)]
         public int X { get; set; }

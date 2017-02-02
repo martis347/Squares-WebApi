@@ -1,8 +1,7 @@
 ﻿using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using Squares.Contracts.Exceptions;
 
 namespace Squares.WebApi.Filters
 {
@@ -12,12 +11,12 @@ namespace Squares.WebApi.Filters
         {
             if (actionContext.ActionArguments.Any(kv => kv.Value == null) && actionContext.Request.Method.Method != "GET")
             {
-                actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid request.");
+                throw new BadRequestException("Request format is invalid.", "invalidFormat");
             }
-            else if (!actionContext.ModelState.IsValid)
+            if (!actionContext.ModelState.IsValid)
             {
-                actionContext.Response = actionContext.Request.CreateErrorResponse(
-                    HttpStatusCode.BadRequest, actionContext.ModelState);
+                var a = actionContext.ModelState;
+                throw new BadRequestException($"Requests is invalid. Please check these properties:{string.Join(",", actionContext.ModelState.Keys.ToList())}", "invalidProperties");
             }
         }
     }

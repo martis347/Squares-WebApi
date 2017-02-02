@@ -29,9 +29,9 @@ namespace Squares.Storage.Client
             _fileLocks = ReadExistingFiles();
         }
 
-        public PointsList RetrieveList(string listName)
+        public IList<Point> RetrieveList(string listName)
         {
-            PointsList result = new PointsList { List = new List<Point>() };
+            var result = new List<Point>();
             if (!_fileLocks.ContainsKey(listName))
             {
                 throw new FileStorageException("List with given name does not exist.", "listNotFound");
@@ -42,15 +42,21 @@ namespace Squares.Storage.Client
                 using (Stream fs = new FileStream($"{_fileLocation}{listName}", FileMode.Open, FileAccess.Read, FileShare.None))
                 using (StreamReader sr = new StreamReader(fs))
                 {
-                    string line = sr.ReadLine();
-                    result.List.Add(new Point(line));
+                    while (!sr.EndOfStream)
+                    {
+                        string line = sr.ReadLine();
+                        if (line != null)
+                        {
+                            result.Add(new Point(line));
+                        }
+                    }
                 }
             }
 
             return result;
         }
 
-        public List<string> RetrieveListNames()
+        public IList<string> RetrieveListNames()
         {
             return _fileLocks.Keys.ToList();
         }
@@ -78,14 +84,19 @@ namespace Squares.Storage.Client
             {
                 throw new FileStorageException("List with given name already exists.", "listExists");
             }
-
-            File.Create($"{_fileLocation}{listName}");
             _fileLocks.Add(listName, new FileInfo());
+            lock (_fileLocks[listName])
+            {
+                using (File.Create($"{_fileLocation}{listName}"))
+                {
+                    _fileLocks.Add(listName, new FileInfo());
+                }
+            }
 
             return true;
         }
 
-        public bool AddToList(PointsList points, string listName)
+        public bool AddToList(IList<Point> points, string listName)
         {
             if (!_fileLocks.ContainsKey(listName))
             {
@@ -94,13 +105,22 @@ namespace Squares.Storage.Client
 
             lock (_fileLocks[listName])
             {
+                var lines = File.ReadAllLines($"{_fileLocation}{listName}");
+                var pointLines = points.Select(point => $"{point.X} {point.Y}");
+                var existingLines = pointLines.Intersect(lines).ToList();
+                        
+                if (existingLines.Any())
+                {
+                    throw new FileStorageException($"Point(s): {existingLines.Aggregate((i, j) =>$@"{{{i}}} {{{j}}}")} already exist in the list", "pointsExist");
+                }
+
                 int writtenLinesCount = 0;
                 int existingLinesCount = _fileLocks[listName].LinesCount;
 
                 using (Stream fs = new FileStream($"{_fileLocation}{listName}", FileMode.Append, FileAccess.Write, FileShare.None))
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    foreach (var point in points.List)
+                    foreach (var point in points)
                     {
                         sw.WriteLine($"{point.X} {point.Y}");
                         writtenLinesCount++;
@@ -118,7 +138,7 @@ namespace Squares.Storage.Client
             return true;
         }
 
-        public int RemoveFromList(PointsList points, string listName)
+        public int RemoveFromList(IList<Point> points, string listName)
         {
             if (!_fileLocks.ContainsKey(listName))
             {
@@ -134,25 +154,29 @@ namespace Squares.Storage.Client
                 using (StreamReader sr = new StreamReader(fsRead))
                 using (StreamWriter sw = new StreamWriter(fs2Write))
                 {
-                    string line = sr.ReadLine();
-                    foreach (Point point in points.List)
+                    while (!sr.EndOfStream)
                     {
-                        string pointString = $"{point.X} {point.Y}";
-                        if (line == pointString)
+                        string line = sr.ReadLine();
+                        foreach (Point point in points)
                         {
-                            linesToDelete.Add(line);
-                            break;
+                            string pointString = $"{point.X} {point.Y}";
+                            if (line == pointString)
+                            {
+                                linesToDelete.Add(line);
+                                break;
+                            }
                         }
-                    }
 
-                    if (!linesToDelete.Contains(line))
-                    {
-                        sw.WriteLine(line);
+                        if (!linesToDelete.Contains(line))
+                        {
+                            sw.WriteLine(line);
+                        }
                     }
                 }
 
                 _fileLocks[listName].LinesCount -= linesToDelete.Count;
-                File.Delete($"{_fileLocation}{listName}.temp");
+                File.Delete($"{_fileLocation}{listName}");
+                File.Move($"{_fileLocation}{listName}.temp", $"{_fileLocation}{listName}");
             }
 
             return linesToDelete.Count;

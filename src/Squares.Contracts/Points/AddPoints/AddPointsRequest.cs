@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Squares.Contracts.Points.AddPoints
 {
-    public class ImportPointsRequest : BaseRequest
+    public class AddPointsRequest : BaseRequest
     {
         [Required]
         public string ListName { get; set; }

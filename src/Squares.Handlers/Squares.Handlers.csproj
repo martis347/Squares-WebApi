@@ -50,7 +50,11 @@
     <Compile Include="ListsHandlers\CreateListHandler.cs" />
     <Compile Include="ListsHandlers\RemoveListHandler.cs" />
     <Compile Include="ListsHandlers\RetrieveListsHandler.cs" />
+    <Compile Include="PointsHandlers\AddPointsHandler.cs" />
+    <Compile Include="PointsHandlers\RemovePointsHandler.cs" />
+    <Compile Include="PointsHandlers\RetrievePointsHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SquaresHandlers\RetrieveSquaresHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Squares.Contracts\Squares.Contracts.csproj">
@@ -63,8 +67,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="PointsHandlers\" />
-    <Folder Include="SquaresHandlers\" />
     <Folder Include="Validators\" />
   </ItemGroup>
   <ItemGroup>
