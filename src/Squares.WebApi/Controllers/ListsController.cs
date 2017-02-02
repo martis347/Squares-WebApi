@@ -20,7 +20,7 @@ namespace Squares.WebApi.Controllers
             var handler = Container.Resolve<IHandler<RetrieveListsRequest, RetrieveListsResponse>>();
             handler.Handle(request);
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK, "");
         }
 
         [HttpPost]

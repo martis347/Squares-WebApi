@@ -89,6 +89,7 @@
     <Compile Include="Controllers\ListsController.cs" />
     <Compile Include="Controllers\PointsController.cs" />
     <Compile Include="Controllers\SquaresController.cs" />
+    <Compile Include="Filters\ExceptionFilterAttribute.cs" />
     <Compile Include="Filters\ValidateModelAttribute.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="WebApiHost.cs" />

@@ -36,7 +36,11 @@ namespace Squares.WebApi
             {
                 IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always,
                 DependencyResolver = new AutofacWebApiDependencyResolver(_container),
-                Filters = { new ValidateModelAttribute()}
+                Filters =
+                {
+                    new ValidateModelAttribute(),
+                    new ExceptionFilter()
+                }
             };
 
             RegisterRoutes(configuration);
