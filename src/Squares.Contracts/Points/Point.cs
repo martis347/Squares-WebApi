@@ -21,6 +21,19 @@ namespace Squares.Contracts.Points
             return $"{X} {Y}";
         }
 
+        public override bool IsGreaterThan(string line)
+        {
+            string[] values = line.Split(' ');
+            var x = Int32.Parse(values[0]);
+            var y = Int32.Parse(values[1]);
+
+            if (X > x || X == x && Y > y)
+            {
+                return true;
+            }
+            return false;
+        }
+
         [Required]
         [Range(-5000, 5000)]
         public int X { get; set; }

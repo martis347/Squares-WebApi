@@ -5,5 +5,6 @@ namespace Squares.Contracts.Points.RetrievePoints
     public class RetrievePointsResponse : BaseResponse
     {
         public IList<Point> Points { get; set; }
+        public int PointsCount { get; set; } 
     }
 }

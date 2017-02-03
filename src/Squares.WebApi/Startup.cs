@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Net.Http.Formatting;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Autofac;
 using Autofac.Integration.WebApi;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Owin;
 using Squares.WebApi.Filters;
 
@@ -42,6 +41,10 @@ namespace Squares.WebApi
                     new ExceptionFilter()
                 }
             };
+            configuration.EnableCors(new EnableCorsAttribute(
+                origins: "*",
+                headers: "*",
+                methods: "*"));
 
             RegisterFormatters(configuration);
             RegisterRoutes(configuration);

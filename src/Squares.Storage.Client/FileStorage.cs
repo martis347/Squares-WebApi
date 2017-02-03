@@ -113,31 +113,53 @@ namespace Squares.Storage.Client
                 var lines = File.ReadAllLines($"{_fileLocation}{listName}");
                 var itemLines = items.Select(item => $"{item.ToString()}");
                 var existingLines = itemLines.Intersect(lines).ToList();
-                        
+
                 if (existingLines.Any())
                 {
-                    throw new FileStorageException($"Items(s): {existingLines.Aggregate((i, j) =>$@"{{{i}}} {{{j}}}")} already exist in the list", "itemsExist");
+                    throw new FileStorageException($"Items(s): {existingLines.Aggregate((i, j) => $@"{{{i}}} {{{j}}}")} already exist in the list", "itemsExist");
+                }
+                if (_fileMaxRows - _fileLocks[listName].LinesCount < items.Count)
+                {
+                    throw new FileStorageException("List does not have enough space.", "listSizeExceeded");
                 }
 
-                int writtenLinesCount = 0;
-                int existingLinesCount = _fileLocks[listName].LinesCount;
-
-                using (Stream fs = new FileStream($"{_fileLocation}{listName}", FileMode.Append, FileAccess.Write, FileShare.None))
-                using (StreamWriter sw = new StreamWriter(fs))
+                using (Stream fs1 = new FileStream($"{_fileLocation}{listName}", FileMode.Open, FileAccess.Read, FileShare.None))
+                using (Stream fs2 = new FileStream($"{_fileLocation}{listName}.temp", FileMode.Create, FileAccess.Write, FileShare.None))
+                using (StreamReader sr = new StreamReader(fs1))
+                using (StreamWriter sw = new StreamWriter(fs2))
                 {
-                    foreach (var item in items)
+                    while (items.Any())
                     {
-                        sw.WriteLine($"{item}");
-                        writtenLinesCount++;
-
-                        if (existingLinesCount + writtenLinesCount >= _fileMaxRows)
+                        var line = sr.ReadLine();
+                        if (line == null)
                         {
-                            throw new FileStorageException("List elements count limit exceeded", "listSizeExceeded");
+                            foreach (var item in items)
+                            {
+                                sw.WriteLine($"{item}");
+                            }
+                            break;
+                        }
+                        if (items[0].IsGreaterThan(line))
+                        {
+                            sw.WriteLine($"{line}");
+                        }
+                        else
+                        {
+                            while (items.Any() && items[0].IsGreaterThan(line))
+                            {
+                                sw.WriteLine($"{items[0]}");
+                                items.Remove(items[0]);
+                            }
+                            sw.WriteLine($"{line}");
                         }
                     }
+
                 }
 
-                _fileLocks[listName].LinesCount += writtenLinesCount;
+                File.Delete($"{_fileLocation}{listName}");
+                File.Move($"{_fileLocation}{listName}.temp", $"{_fileLocation}{listName}");
+
+                _fileLocks[listName].LinesCount += items.Count;
             }
 
             return true;
@@ -162,7 +184,7 @@ namespace Squares.Storage.Client
                     while (!sr.EndOfStream)
                     {
                         string line = sr.ReadLine();
-                        foreach (Listable item in items)
+                        foreach (T item in items)
                         {
                             string itemString = $"{item}";
                             if (line == itemString)
@@ -195,10 +217,19 @@ namespace Squares.Storage.Client
             foreach (var file in files)
             {
                 var lineCount = File.ReadLines($"{_fileLocation}{file}").Count();
-                result.Add(file, new FileInfo {LinesCount = lineCount});
+                result.Add(file, new FileInfo { LinesCount = lineCount });
             }
 
             return result;
+        }
+
+        public int RetrieveItemsCount(string listName)
+        {
+            if (!_fileLocks.ContainsKey(listName))
+            {
+                throw new FileStorageException("List with given name does not exist.", "listNotFound");
+            }
+            return _fileLocks[listName].LinesCount;
         }
     }
 }

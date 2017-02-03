@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Squares.Contracts.Points;
 using Squares.Contracts.Points.AddPoints;
 using Squares.Storage.Client;
@@ -21,7 +22,7 @@ namespace Squares.Handlers.PointsHandlers
         {
             var result = new AddPointsResponse();
 
-            _storage.AddToList(request.Points, request.ListName);
+            _storage.AddToList(request.Points.OrderBy(c => c.X).ThenBy(c => c.Y).ToList(), request.ListName);
 
             return result;
         }

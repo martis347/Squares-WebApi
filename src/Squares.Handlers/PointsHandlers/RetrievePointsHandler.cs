@@ -25,7 +25,8 @@ namespace Squares.Handlers.PointsHandlers
             {
                 Points = request.SortDirection == ListSortDirection.Ascending
                     ? _storage.RetrieveItems(request.ListName, request.PageSize, request.PageNumber).OrderBy(c => c.X).ThenBy(c => c.Y).ToList()
-                    : _storage.RetrieveItems(request.ListName, request.PageSize, request.PageNumber).OrderByDescending(c => c.X).ThenBy(c => c.Y).ToList()
+                    : _storage.RetrieveItems(request.ListName, request.PageSize, request.PageNumber).OrderByDescending(c => c.X).ThenBy(c => c.Y).ToList(),
+                PointsCount = _storage.RetrieveItemsCount(request.ListName)
             };
 
             return result;

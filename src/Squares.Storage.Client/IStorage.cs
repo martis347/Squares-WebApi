@@ -8,6 +8,7 @@ namespace Squares.Storage.Client
     {
         IList<string> RetrieveListNames();
         IList<T> RetrieveItems(string listName, int pageSize, int pageNumber);
+        int RetrieveItemsCount(string listName);
         bool RemoveList(string listName);
         bool CreateList(string listName);
         bool AddToList(IList<T> points, string listName);
