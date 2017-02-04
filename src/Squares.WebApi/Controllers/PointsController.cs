@@ -45,9 +45,9 @@ namespace Squares.WebApi.Controllers
         public HttpResponseMessage DeletePoints(RemovePointsRequest request)
         {
             var handler = Container.Resolve<IHandler<RemovePointsRequest, RemovePointsResponse>>();
-            var result = handler.Handle(request);
+            handler.Handle(request);
 
-            return Request.CreateResponse(HttpStatusCode.NoContent, result);
+            return Request.CreateResponse(HttpStatusCode.NoContent);
         }
     }
 }

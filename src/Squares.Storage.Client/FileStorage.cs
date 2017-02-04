@@ -94,6 +94,7 @@ namespace Squares.Storage.Client
             lock (_fileLocks[listName])
             {
                 using (File.Create($"{_fileLocation}{listName}"))
+                using (File.Create($"{_fileLocation}Squares/{listName}"))
                 {
                 }
             }
@@ -111,7 +112,7 @@ namespace Squares.Storage.Client
             lock (_fileLocks[listName])
             {
                 var lines = File.ReadAllLines($"{_fileLocation}{listName}");
-                var itemLines = items.Select(item => $"{item.ToString()}");
+                var itemLines = items.Select(item => $"{item.ToString()}").ToList();
                 var existingLines = itemLines.Intersect(lines).ToList();
 
                 if (existingLines.Any())
@@ -145,10 +146,17 @@ namespace Squares.Storage.Client
                         }
                         else
                         {
-                            while (items.Any() && items[0].IsGreaterThan(line))
+                            while (items.Any() && !items[0].IsGreaterThan(line))
                             {
                                 sw.WriteLine($"{items[0]}");
                                 items.Remove(items[0]);
+                            }
+                            if (!items.Any())
+                            {
+                                while (!sr.EndOfStream)
+                                {
+                                    sw.WriteLine(sr.ReadLine());
+                                }
                             }
                             sw.WriteLine($"{line}");
                         }
@@ -159,7 +167,7 @@ namespace Squares.Storage.Client
                 File.Delete($"{_fileLocation}{listName}");
                 File.Move($"{_fileLocation}{listName}.temp", $"{_fileLocation}{listName}");
 
-                _fileLocks[listName].LinesCount += items.Count;
+                _fileLocks[listName].LinesCount += itemLines.Count;
             }
 
             return true;

@@ -22,8 +22,8 @@ namespace Squares.Handlers.SquaresHandlers
             var result = new RetrieveSquaresResponse
             {
                 Squares = _storage.RetrieveItems(request.ListName, request.PageSize, request.PageNumber),
+                SquaresCount = _storage.RetrieveItemsCount(request.ListName)
             };
-
 
             return result;
         }
