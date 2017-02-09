@@ -13,7 +13,7 @@ namespace Squares.Machine.DI
             builder.Register((c, p) =>
                 new Machine(
                     c.Resolve<IStorage<Square>>(),
-                    c.ResolveNamed<IStorage<Point>>("FreePoints")))
+                    c.Resolve<IStorage<Point>>()))
                 .As<IMachine<BaseRequest>>()
                 .SingleInstance();
         }

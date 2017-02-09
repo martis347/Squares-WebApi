@@ -29,7 +29,6 @@ namespace Squares.Machine
         public bool CreateList(string listName)
         {
             _squaresStorage.CreateList(listName);
-            _pointsStorage.CreateList(listName);
 
             return true;
         }
@@ -37,7 +36,6 @@ namespace Squares.Machine
         public bool RemoveList(string listName)
         {
             _squaresStorage.RemoveList(listName);
-            _pointsStorage.RemoveList(listName);
 
             return true;
         }
@@ -52,11 +50,11 @@ namespace Squares.Machine
             return RemovePoints((RemovePointsRequest)request);
         }
 
-        private List<Square> ProcessPoints(IList<Point> points)
+        private IList<Square> ProcessPoints(IList<Point> points)
         {
-            Dictionary<int, List<int>> pointsDictionary = new Dictionary<int, List<int>>();
+            Dictionary<int, IList<int>> pointsDictionary = new Dictionary<int, IList<int>>();
             IEnumerable<int> xValues = pointsDictionary.Keys;
-            List<Square> squares = new List<Square>();
+            IList<Square> squares = new List<Square>();
 
             foreach (var requestPoint in points)
             {
@@ -86,7 +84,7 @@ namespace Squares.Machine
                             {
                                 var square = new Square
                                 {
-                                    Points = new[]
+                                    Points = new List<Point>
                                     {
                                         new Point
                                         {
@@ -127,13 +125,10 @@ namespace Squares.Machine
 
         private bool AddPoints(AddPointsRequest request)
         {
-            _pointsStorage.AddToList(request.Points, request.ListName);
-
+            var existingSquares = _squaresStorage.RetrieveItems(request.ListName, 0, 0);
             var squares = ProcessPoints(_pointsStorage.RetrieveItems(request.ListName, 0, 0));
 
-            squares.ForEach(c => _pointsStorage.RemoveFromList(c.Points, request.ListName));
-
-            _squaresStorage.AddToList(squares, request.ListName);
+            _squaresStorage.AddToList(squares.Where(square => !existingSquares.Any(c => c.Equals(square))).ToList(), request.ListName);
 
             return true;
         }
@@ -147,8 +142,7 @@ namespace Squares.Machine
                 squaresToRemove.AddRange(allSquares.Where(c => c.Points.Any(p => p.X == point.X && p.Y == point.Y)));
             }
 
-            squaresToRemove.ForEach(c => _pointsStorage.AddToList(c.Points, request.ListName));
-            _pointsStorage.RemoveFromList(request.Points, request.ListName);
+            _squaresStorage.RemoveFromList(squaresToRemove, request.ListName);
 
             return true;
         }

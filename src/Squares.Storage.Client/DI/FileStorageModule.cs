@@ -16,10 +16,6 @@ namespace Squares.Storage.Client.DI
             builder.Register(c => new FileStorage<Point>(ConfigurationManager.AppSettings["PointsLocation"]))
                 .As<IStorage<Point>>()
                 .SingleInstance();
-
-            builder.Register(c => new FileStorage<Point>(ConfigurationManager.AppSettings["FreePointsLocation"]))
-                .Named<IStorage<Point>>("FreePoints")
-                .SingleInstance();
         }
     }
 }

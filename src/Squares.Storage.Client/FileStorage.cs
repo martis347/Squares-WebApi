@@ -135,7 +135,7 @@ namespace Squares.Storage.Client
 
                 if (existingLines.Any())
                 {
-                    throw new FileStorageException($"Items(s): {existingLines.Aggregate((i, j) => $@"{{{i}}} {{{j}}}")} already exist in the list", "itemsExist");
+                    throw new FileStorageException($"Items(s): {existingLines.Aggregate((i, j) => $@"{i} {j}")} already exist in the list", "itemsExist");
                 }
                 if (_fileMaxRows - _fileLocks[listName].LinesCount < items.Count)
                 {
@@ -169,9 +169,10 @@ namespace Squares.Storage.Client
                                 sw.WriteLine($"{items[0]}");
                                 items.Remove(items[0]);
                             }
+                            sw.WriteLine($"{line}");
+
                             if (!items.Any())
                             {
-                                sw.WriteLine($"{line}");
                                 while (!sr.EndOfStream)
                                 {
                                     sw.WriteLine(sr.ReadLine());
@@ -197,7 +198,7 @@ namespace Squares.Storage.Client
                 throw new FileStorageException("List with given name does not exist.", "listNotFound");
             }
 
-            List<string> linesToDelete = new List<string>();
+            IList<string> linesToDelete = new List<string>();
 
             lock (_fileLocks[listName])
             {
