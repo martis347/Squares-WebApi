@@ -1,8 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Autofac;
+using Squares.Contracts.Points;
 using Squares.Contracts.Points.AddPoints;
 using Squares.Contracts.Points.RemovePoint;
 using Squares.Contracts.Points.RetrievePoints;
@@ -36,6 +38,101 @@ namespace Squares.WebApi.Controllers
         public HttpResponseMessage AddPoints(AddPointsRequest request)
         {
             var handler = Container.Resolve<IHandler<AddPointsRequest, AddPointsResponse>>();
+
+            /*request.Points = new List<Point>
+            {
+                new Point
+                {
+                    X = -4,
+                    Y = -4
+                },
+                new Point
+                {
+                    X = -4,
+                    Y = -1
+                },
+                new Point
+                {
+                    X = -2,
+                    Y = -4
+                },
+                new Point
+                {
+                    X = -2,
+                    Y = -2
+                },
+                new Point
+                {
+                    X = -2,
+                    Y = -1
+                },
+                new Point
+                {
+                    X = -2,
+                    Y = 2
+                },
+                new Point
+                {
+                    X = -1,
+                    Y = -2
+                },
+                new Point
+                {
+                    X = 0,
+                    Y = 0
+                },
+                new Point
+                {
+                    X = 0,
+                    Y = 2
+                },
+                new Point
+                {
+                    X = 1,
+                    Y = -2
+                },
+                new Point
+                {
+                    X = 1,
+                    Y = 1
+                },
+                new Point
+                {
+                    X = 2,
+                    Y = -2
+                },
+                new Point
+                {
+                    X = 2,
+                    Y = 2
+                },
+                new Point
+                {
+                    X = 2,
+                    Y = 0
+                },
+                new Point
+                {
+                    X = 3,
+                    Y = 1
+                },
+                new Point
+                {
+                    X = 4,
+                    Y = -2
+                },
+                new Point
+                {
+                    X = 4,
+                    Y = 2
+                },
+                new Point
+                {
+                    X = 4,
+                    Y = 0
+                }
+            };
+*/
             var result = handler.Handle(request);
 
             return Request.CreateResponse(HttpStatusCode.Created, result);

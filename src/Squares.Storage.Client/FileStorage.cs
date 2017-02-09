@@ -12,7 +12,7 @@ namespace Squares.Storage.Client
         where T : Listable, new()
     {
         private volatile IDictionary<string, FileInfo> _fileLocks;
-        private readonly string _fileLocation;
+        private string _fileLocation;
         private readonly int _fileMaxRows;
 
         public FileStorage(string fileLocation)
@@ -37,8 +37,16 @@ namespace Squares.Storage.Client
             }
 
             var result = new List<T>();
-            int startingLineNumber = pageSize * (pageNumber - 1);
-
+            int startingLineNumber;
+            if (pageSize == 0 && pageNumber == 0)
+            {
+                startingLineNumber = 0;
+                pageSize = _fileLocks[listName].LinesCount;
+            }
+            else
+            {
+                startingLineNumber = pageSize * (pageNumber - 1);
+            }
             lock (_fileLocks[listName])
             {
                 using (Stream fs = new FileStream($"{_fileLocation}{listName}", FileMode.Open, FileAccess.Read, FileShare.None))
@@ -51,10 +59,9 @@ namespace Squares.Storage.Client
                     for (int i = 0; i < pageSize; i++)
                     {
                         string line = sr.ReadLine();
-                        if (line != null)
-                        {
-                            result.Add(Activator.CreateInstance(typeof(T), line) as T);
-                        }
+                        if (line == null) break;
+
+                        result.Add(Activator.CreateInstance(typeof(T), line) as T);
                     }
                 }
             }
@@ -94,7 +101,6 @@ namespace Squares.Storage.Client
             lock (_fileLocks[listName])
             {
                 using (File.Create($"{_fileLocation}{listName}"))
-                using (File.Create($"{_fileLocation}Squares/{listName}"))
                 {
                 }
             }
@@ -104,6 +110,11 @@ namespace Squares.Storage.Client
 
         public bool AddToList(IList<T> items, string listName)
         {
+            if (items.Count == 0)
+            {
+                return true;
+            }
+
             if (!_fileLocks.ContainsKey(listName))
             {
                 throw new FileStorageException("List with given name does not exist.", "listNotFound");
@@ -161,7 +172,6 @@ namespace Squares.Storage.Client
                             sw.WriteLine($"{line}");
                         }
                     }
-
                 }
 
                 File.Delete($"{_fileLocation}{listName}");

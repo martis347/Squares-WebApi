@@ -36,7 +36,7 @@ namespace Squares.WebApi.Filters
                         };
                         context.Response = response;
                         return;
-                    case "pointsExist":
+                    case "itemsExist":
                     case "listExists":
                         response = new HttpResponseMessage
                         {

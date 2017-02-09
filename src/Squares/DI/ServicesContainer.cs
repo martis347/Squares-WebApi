@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Squares.Handlers.DI;
+using Squares.Machine.DI;
 using Squares.Storage.Client.DI;
 
 namespace Squares.DI
@@ -20,6 +21,7 @@ namespace Squares.DI
             builder.RegisterModule<WebApiModule>();
             builder.RegisterModule<HandlersModule>();
             builder.RegisterModule<FileStorageModule>();
+            builder.RegisterModule<MachineModule>();
 
             builder.RegisterType<Program>()
                 .AsSelf()

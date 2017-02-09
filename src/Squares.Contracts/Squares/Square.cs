@@ -18,6 +18,11 @@ namespace Squares.Contracts.Squares
             
         }
 
+        public override string ToString()
+        {
+            return $"{Points[0]}.{Points[1]}.{Points[2]}.{Points[3]}";
+        }
+
         public Point[] Points { get; set; } = new Point[4];
     }
 }

@@ -14,7 +14,6 @@ namespace Squares
             {
                 throw new ArgumentException("webApiBaseUrl");
             }
-
             _webApiHost = new WebApiHost(webApiBaseUrl, DI.ServicesContainer.Resolve<ILifetimeScope>());
         }
 

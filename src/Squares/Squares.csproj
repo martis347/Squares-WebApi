@@ -87,9 +87,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Squares.Contracts\Squares.Contracts.csproj">
+      <Project>{6AEA9099-04B9-4FFC-8344-BB5D7666C1C2}</Project>
+      <Name>Squares.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Squares.Handlers\Squares.Handlers.csproj">
       <Project>{60aa9f80-df8a-4b5f-9648-1a6306c55980}</Project>
       <Name>Squares.Handlers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Squares.Machine\Squares.Machine.csproj">
+      <Project>{4BC05614-F5F4-428D-A3DB-8269812E2130}</Project>
+      <Name>Squares.Machine</Name>
     </ProjectReference>
     <ProjectReference Include="..\Squares.Storage.Client\Squares.Storage.Client.csproj">
       <Project>{EFB225F7-5FD9-4F1E-A9DE-BFAC2F297044}</Project>

@@ -11,7 +11,7 @@ namespace Squares.Storage.Client
         int RetrieveItemsCount(string listName);
         bool RemoveList(string listName);
         bool CreateList(string listName);
-        bool AddToList(IList<T> points, string listName);
-        int RemoveFromList(IList<T> points, string listName);
+        bool AddToList(IList<T> items, string listName);
+        int RemoveFromList(IList<T> items, string listName);
     }
 }

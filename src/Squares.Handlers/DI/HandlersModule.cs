@@ -24,38 +24,31 @@ namespace Squares.Handlers.DI
         private void RegisterSquaresHandlers(ContainerBuilder builder)
         {
             builder.RegisterType<RetrieveSquaresHandler>()
-                .As<IHandler<RetrieveSquaresRequest, RetrieveSquaresResponse>>()
-                .PropertiesAutowired();
+                .As<IHandler<RetrieveSquaresRequest, RetrieveSquaresResponse>>();
         }
 
         private void RegisterListHandlers(ContainerBuilder builder)
         {
             builder.RegisterType<CreateListHandler>()
-                .As<IHandler<CreateListRequest, CreateListResponse>>()
-                .PropertiesAutowired();
+                .As<IHandler<CreateListRequest, CreateListResponse>>();
 
             builder.RegisterType<RemoveListHandler>()
-                .As<IHandler<RemoveListRequest, RemoveListResponse>>()
-                .PropertiesAutowired();
+                .As<IHandler<RemoveListRequest, RemoveListResponse>>();
 
             builder.RegisterType<RetrieveListsHandler>()
-                .As<IHandler<RetrieveListsRequest, RetrieveListsResponse>>()
-                .PropertiesAutowired();
+                .As<IHandler<RetrieveListsRequest, RetrieveListsResponse>>();
         }
 
         private void RegisterPointsHandlers(ContainerBuilder builder)
         {
             builder.RegisterType<AddPointsHandler>()
-                .As<IHandler<AddPointsRequest, AddPointsResponse>>()
-                .PropertiesAutowired();
+                .As<IHandler<AddPointsRequest, AddPointsResponse>>();
 
             builder.RegisterType<RemovePointsHandler>()
-                .As<IHandler<RemovePointsRequest, RemovePointsResponse>>()
-                .PropertiesAutowired();
+                .As<IHandler<RemovePointsRequest, RemovePointsResponse>>();
 
             builder.RegisterType<RetrievePointsHandler>()
-                .As<IHandler<RetrievePointsRequest, RetrievePointsResponse>>()
-                .PropertiesAutowired();
+                .As<IHandler<RetrievePointsRequest, RetrievePointsResponse>>();
         }
     }
 }
