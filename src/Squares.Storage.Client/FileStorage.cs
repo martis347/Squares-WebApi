@@ -11,8 +11,8 @@ namespace Squares.Storage.Client
     public class FileStorage<T> : IStorage<T>
         where T : Listable, new()
     {
-        private volatile IDictionary<string, FileInfo> _fileLocks;
-        private string _fileLocation;
+        private volatile IDictionary<string, FileInfo> _fileLocks = new Dictionary<string, FileInfo>();
+        private readonly string _fileLocation;
         private readonly int _fileMaxRows;
 
         public FileStorage(string fileLocation)
@@ -26,7 +26,14 @@ namespace Squares.Storage.Client
             if (_fileMaxRows == 0)
                 throw new Exception("FileMaxRows not defined in appSettings");
 
-            _fileLocks = ReadExistingFiles();
+            if (!Directory.Exists(_fileLocation))
+            {
+                Directory.CreateDirectory(_fileLocation);
+            }
+            else
+            {
+                _fileLocks = ReadExistingFiles();
+            }
         }
 
         public IList<T> RetrieveItems(string listName, int pageSize, int pageNumber)
@@ -164,12 +171,12 @@ namespace Squares.Storage.Client
                             }
                             if (!items.Any())
                             {
+                                sw.WriteLine($"{line}");
                                 while (!sr.EndOfStream)
                                 {
                                     sw.WriteLine(sr.ReadLine());
                                 }
                             }
-                            sw.WriteLine($"{line}");
                         }
                     }
                 }
