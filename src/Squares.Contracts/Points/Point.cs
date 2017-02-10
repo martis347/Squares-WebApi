@@ -21,6 +21,17 @@ namespace Squares.Contracts.Points
             return $"{X} {Y}";
         }
 
+        public override bool Equals(object obj)
+        {
+            var comp = (Point) obj;
+            return comp?.X == X && comp.Y == Y;
+        }
+
+        public override int GetHashCode()
+        {
+            return ToString().GetHashCode();
+        }
+
         public override bool IsGreaterThan(string line)
         {
             string[] values = line.Split(' ');

@@ -3,33 +3,32 @@ using System.IO;
 using Autofac;
 using Squares.WebApi;
 
-namespace Squares.Integration.Tests
+namespace Squares.Integration.Tests.Helpers
 {
-    public class StartWebApi
+    public static class StartWebApi
     {
-        private readonly WebApiHost _webApiHost;
-        private readonly ILifetimeScope _container = DI.ServicesContainer.Resolve<ILifetimeScope>();
+        private static WebApiHost _webApiHost;
+        private static readonly ILifetimeScope Container = DI.ServicesContainer.Resolve<ILifetimeScope>();
 
-        public StartWebApi(string url)
+        public static void Start(string url)
         {
             ClearDirectory(ConfigurationManager.AppSettings["PointsLocation"]);
             ClearDirectory(ConfigurationManager.AppSettings["SquaresLocation"]);
 
-            _webApiHost = new WebApiHost(url, _container);
+            if (_webApiHost == null)
+            {
+                _webApiHost = new WebApiHost(url, Container);
+                _webApiHost.Start();
+            }
+
         }
 
-        public void Start()
+        public static void Stop()
         {
-            _webApiHost.Start();
+            _webApiHost.Stop();
         }
 
-        public void Clean()
-        {
-            ClearDirectory(ConfigurationManager.AppSettings["PointsLocation"]);
-            ClearDirectory(ConfigurationManager.AppSettings["SquaresLocation"]);
-        }
-
-        private void ClearDirectory(string directory)
+        private static void ClearDirectory(string directory)
         {
             if (Directory.Exists(directory))
             {

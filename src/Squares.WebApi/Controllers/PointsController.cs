@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Autofac;
-using Squares.Contracts.Points;
 using Squares.Contracts.Points.AddPoints;
 using Squares.Contracts.Points.RemovePoint;
 using Squares.Contracts.Points.RetrievePoints;

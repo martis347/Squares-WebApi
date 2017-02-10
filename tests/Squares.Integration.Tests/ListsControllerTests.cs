@@ -14,14 +14,12 @@ namespace Squares.Integration.Tests
     public class TestListsController
     {
         private RestClient _client;
-        private StartWebApi _webApi;
         private readonly string _baseUrl = ConfigurationManager.AppSettings["WebApiServiceUrl"];
 
         [OneTimeSetUp]
         public void Setup()
         {
-            _webApi = new StartWebApi(_baseUrl);
-            _webApi.Start();
+            StartWebApi.Start(_baseUrl);
             _client = new RestClient { BaseUrl = new Uri(_baseUrl) };
         }
 
@@ -36,7 +34,7 @@ namespace Squares.Integration.Tests
         }
 
         [Test]
-        public void TestAddOneList()
+        public void AddOneListTest()
         {
             RetrieveListsResponse expectedJsonResult = new RetrieveListsResponse
             {
@@ -50,7 +48,7 @@ namespace Squares.Integration.Tests
         }
 
         [Test]
-        public void TestAddMultipleLists()
+        public void AddMultipleListsTest()
         {
             RetrieveListsResponse expectedJsonResult = new RetrieveListsResponse { ListNames = new List<string>() };
 
