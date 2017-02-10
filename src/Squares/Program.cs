@@ -8,7 +8,7 @@ namespace Squares
     {
         static void Main(string[] args)
         {
-            if (!Directory.Exists("../../../../Files"))
+            if (!Directory.Exists("Files"))
             {
                 Directory.CreateDirectory("../../../../Files");
             }
