@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7FD41CE2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squares.Integration.Tests", "tests\Squares.Integration.Tests\Squares.Integration.Tests.csproj", "{93050E78-834D-4EE8-B9E6-BC408CA6CC14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Squares.Comparison.Tests", "tests\Squares.Comparison.Tests\Squares.Comparison.Tests.csproj", "{14675A75-FC67-4FD8-B13F-133C7B39F1F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,11 +55,16 @@ Global
 		{93050E78-834D-4EE8-B9E6-BC408CA6CC14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93050E78-834D-4EE8-B9E6-BC408CA6CC14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93050E78-834D-4EE8-B9E6-BC408CA6CC14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14675A75-FC67-4FD8-B13F-133C7B39F1F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14675A75-FC67-4FD8-B13F-133C7B39F1F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14675A75-FC67-4FD8-B13F-133C7B39F1F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14675A75-FC67-4FD8-B13F-133C7B39F1F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{93050E78-834D-4EE8-B9E6-BC408CA6CC14} = {7FD41CE2-7A0D-4877-9F78-FD3569682ABC}
+		{14675A75-FC67-4FD8-B13F-133C7B39F1F9} = {7FD41CE2-7A0D-4877-9F78-FD3569682ABC}
 	EndGlobalSection
 EndGlobal
