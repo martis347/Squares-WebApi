@@ -55,7 +55,6 @@ namespace Squares.Machine
             Dictionary<int, IList<int>> pointsDictionary = new Dictionary<int, IList<int>>();
             IEnumerable<int> xValues = pointsDictionary.Keys;
             IList<Square> squares = new List<Square>();
-
             foreach (var requestPoint in points)
             {
                 if (pointsDictionary.ContainsKey(requestPoint.X))
@@ -108,6 +107,7 @@ namespace Squares.Machine
                                         }
                                     }
                                 };
+                                square.Points = square.Points.OrderBy(p => p.X).ThenBy(p => p.Y).ToList();
                                 squares.Add(square);
 
                                 foreach (var point in square.Points)
