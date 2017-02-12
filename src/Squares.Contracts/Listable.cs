@@ -1,12 +1,13 @@
 ﻿
+using System;
+
 namespace Squares.Contracts
 {
-    public interface IListable
+    public interface IListable : IComparable
     {
-        bool IsGreaterThan(string line);
     }
 
-    public class Listable : IListable
+    public abstract class Listable : IListable
     {
         public Listable(string line)
         {
@@ -16,9 +17,6 @@ namespace Squares.Contracts
         {
         }
 
-        public virtual bool IsGreaterThan(string line)
-        {
-            return true;
-        }
+        public abstract int CompareTo(object obj);
     }
 }

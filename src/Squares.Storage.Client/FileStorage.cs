@@ -158,13 +158,13 @@ namespace Squares.Storage.Client
                             }
                             break;
                         }
-                        if (items[0].IsGreaterThan(line))
+                        if (items[0].CompareTo(Activator.CreateInstance(typeof(T), line)) == 1)
                         {
                             sw.WriteLine($"{line}");
                         }
                         else
                         {
-                            while (items.Any() && !items[0].IsGreaterThan(line))
+                            while (items.Any() && items[0].CompareTo(Activator.CreateInstance(typeof(T), line)) == -1)
                             {
                                 sw.WriteLine($"{items[0]}");
                                 items.Remove(items[0]);

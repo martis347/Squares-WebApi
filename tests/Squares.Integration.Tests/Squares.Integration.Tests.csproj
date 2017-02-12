@@ -59,10 +59,12 @@
   <ItemGroup>
     <Compile Include="Helpers\ListsHelper.cs" />
     <Compile Include="Helpers\PointsHelper.cs" />
+    <Compile Include="Helpers\SquaresHelper.cs" />
     <Compile Include="Helpers\StartWebApi.cs" />
-    <Compile Include="TestListsController.cs" />
+    <Compile Include="ListsControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestPointsController.cs" />
+    <Compile Include="PointsControllerTests.cs" />
+    <Compile Include="SquaresControllerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

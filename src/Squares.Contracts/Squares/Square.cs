@@ -6,13 +6,18 @@ namespace Squares.Contracts.Squares
 {
     public class Square : Listable
     {
+        public IList<Point> Points { get; set; }
+
         public Square(string line) : base(line)
         {
             string[] values = line.Split('.');
-            Points.Add(new Point(values[0]));
-            Points.Add(new Point(values[1]));
-            Points.Add(new Point(values[2]));
-            Points.Add(new Point(values[3]));
+            Points = new List<Point>
+            {
+                new Point(values[0]),
+                new Point(values[1]),
+                new Point(values[2]),
+                new Point(values[3])
+            };
         }
 
         public Square() : base("")
@@ -32,9 +37,42 @@ namespace Squares.Contracts.Squares
 
         public override bool Equals(object obj)
         {
-            return ToString() == obj?.ToString();
+            var square = obj as Square;
+
+            return square?.Points.SequenceEqual(Points) ?? false;
         }
 
-        public IList<Point> Points { get; set; } = new List<Point>(4);
+        public override int CompareTo(object obj)
+        {
+            Square square = (Square) obj;
+
+            int mathces = 0;
+            while (square.Points[mathces].Equals(Points[mathces]))
+            {
+                mathces++;
+                if (mathces == 4)
+                    return 0;
+            }
+
+            var rez = Points[mathces].CompareTo(square.Points[mathces]);
+            return rez;
+        }
+
+        public class SquareComparer : IComparer<IList<Point>>
+        {
+            public int Compare(IList<Point> x, IList<Point> y)
+            {
+                int mathces = 0;
+                while (x[mathces].Equals(y[mathces]))
+                {
+                    mathces++;
+                    if (mathces == 4)
+                        return 0;
+                }
+
+                var rez = x[mathces].CompareTo(y[mathces]);
+                return rez;
+            }
+        }
     }
 }

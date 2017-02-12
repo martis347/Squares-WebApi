@@ -126,7 +126,7 @@ namespace Squares.Machine
         private bool AddPoints(AddPointsRequest request)
         {
             var existingSquares = _squaresStorage.RetrieveItems(request.ListName, 0, 0);
-            var squares = ProcessPoints(_pointsStorage.RetrieveItems(request.ListName, 0, 0));
+            var squares = ProcessPoints(_pointsStorage.RetrieveItems(request.ListName, 0, 0)).OrderBy(c => c.Points, new Square.SquareComparer());
 
             _squaresStorage.AddToList(squares.Where(square => !existingSquares.Any(c => c.Equals(square))).ToList(), request.ListName);
 

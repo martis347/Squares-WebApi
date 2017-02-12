@@ -137,7 +137,7 @@ namespace Squares.Integration.Tests
 
             Assert.That(response.PointsCount, Is.EqualTo(dataCount));
             Assert.That(response.Points.Count, Is.EqualTo(pageSize));
-            CollectionAssert.AreEquivalent(
+            CollectionAssert.AreEqual(
                 points.OrderBy(c => c.X).ThenBy(c => c.Y).ToList()
                 .GetRange(
                     (pageNumber - 1) * pageSize, pageSize), response.Points);

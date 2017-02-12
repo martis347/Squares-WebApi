@@ -5,6 +5,14 @@ namespace Squares.Contracts.Points
 {
     public class Point : Listable
     {
+        [Required]
+        [Range(-5000, 5000)]
+        public int X { get; set; }
+
+        [Required]
+        [Range(-5000, 5000)]
+        public int Y { get; set; }
+
         public Point(string line) : base(line)
         {
             string[] values = line.Split(' ');
@@ -23,7 +31,7 @@ namespace Squares.Contracts.Points
 
         public override bool Equals(object obj)
         {
-            var comp = (Point) obj;
+            var comp = (Point)obj;
             return comp?.X == X && comp.Y == Y;
         }
 
@@ -32,24 +40,21 @@ namespace Squares.Contracts.Points
             return ToString().GetHashCode();
         }
 
-        public override bool IsGreaterThan(string line)
+        public override int CompareTo(object obj)
         {
-            string[] values = line.Split(' ');
-            var x = Int32.Parse(values[0]);
-            var y = Int32.Parse(values[1]);
+            Point point = (Point) obj;
 
-            if (X > x || X == x && Y > y)
+            if (point.ToString() == ToString())
             {
-                return true;
+                return 0;
             }
-            return false;
-        }
 
-        [Required]
-        [Range(-5000, 5000)]
-        public int X { get; set; }
-        [Required]
-        [Range(-5000, 5000)]
-        public int Y { get; set; }
+            if (X > point.X || X.Equals(point.X) && Y > point.Y)
+            {
+                return 1;
+            }
+
+            return -1;
+        }
     }
 }

@@ -11,7 +11,7 @@ using Squares.Integration.Tests.Helpers;
 namespace Squares.Integration.Tests
 {
     [TestFixture]
-    public class TestListsController
+    public class ListsControllerTests
     {
         private RestClient _client;
         private readonly string _baseUrl = ConfigurationManager.AppSettings["WebApiServiceUrl"];
