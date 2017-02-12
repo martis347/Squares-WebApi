@@ -12,7 +12,7 @@ namespace Squares.Comparison.Tests
         public void SquaresEqualTest()
         {
             var square1 = new Square("1 1.1 -1.-1 1.-1 -1");
-            var square2 = new Square("1 1.1 -1.-1 1.-1 -1");
+            var square2 = new Square("-1 1.1 -1.1 1.-1 -1");
 
             Assert.IsTrue(square1.Equals(square2));
         }
@@ -74,25 +74,25 @@ namespace Squares.Comparison.Tests
 
             List<Square> squaresExpected = new List<Square>
             {
-                new Square("-4 0.-1 1.-1 -1.-1 1"),
-                new Square("-1 -1.1 1.-1 -1.-1 -1"),
-                new Square("-1 1.-1 -1.-1 1.-7 1"),
-                new Square("-1 1.-1 1.-3 1.1 -1"),
-                new Square("0 -1.1 0.1 -2.1 1"),
-                new Square("1 -1.-5 1.-1 1.-1 1"),
-                new Square("1 -1.1 -1.1 10.1 -1"),
-                new Square("1 -1.2 -1.12 1.0 -1"),
-                new Square("1 1.-1 1.-1 1.-1 -1"),
-                new Square("1 1.0 1.1 -1.-1 -1"),
-                new Square("1 1.1 -4.-1 -1.1 0"),
-                new Square("1 1.1 -1.-1 1.-1 -1"),
-                new Square("1 1.1 1.1 -1.-4 -1"),
-                new Square("1 1.1 1.2 -1.-11 -1"),
-                new Square("1 2.-1 1.-1 1.-1 -4"),
-                new Square("1 4.1 -1.-1 -1.0 -1"),
-                new Square("1 15.-1 1.0 1.-1 1"),
-                new Square("2 -1.3 -1.1 -1.1 -1"),
-                new Square("3 1.1 -1.-5 -1.1 -8"),
+                new Square("-11 -1.1 1.1 1.2 -1"),
+                new Square("-7 1.-1 -1.-1 1.-1 1"),
+                new Square("-5 -1.1 -8.1 -1.3 1"),
+                new Square("-5 1.-1 1.-1 1.1 -1"),
+                new Square("-4 -1.1 -1.1 1.1 1"),
+                new Square("-4 0.-1 -1.-1 1.-1 1"),
+                new Square("-3 1.-1 1.-1 1.1 -1"),
+                new Square("-1 -4.-1 1.-1 1.1 2"),
+                new Square("-1 -1.-1 -1.-1 -1.1 1"),
+                new Square("-1 -1.-1 1.-1 1.1 1"),
+                new Square("-1 -1.-1 1.1 -1.1 1"),
+                new Square("-1 -1.0 -1.1 -1.1 4"),
+                new Square("-1 -1.0 1.1 -1.1 1"),
+                new Square("-1 -1.1 -4.1 0.1 1"),
+                new Square("-1 1.-1 1.0 1.1 15"),
+                new Square("0 -1.1 -2.1 0.1 1"),
+                new Square("0 -1.1 -1.2 -1.12 1"),
+                new Square("1 -1.1 -1.1 -1.1 10"),
+                new Square("1 -1.1 -1.2 -1.3 -1")
             };
 
             var squaresSorted = squares.OrderBy(c => c.Points, new Square.SquareComparer());

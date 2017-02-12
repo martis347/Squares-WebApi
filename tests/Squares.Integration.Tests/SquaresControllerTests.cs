@@ -40,7 +40,7 @@ namespace Squares.Integration.Tests
 
             for (int i = 1; i <= 10; i++)
             {
-                squares.Add(new Square($"-{i} -{i}.{i} -{i}.-{i} {i}.{i} {i}"));
+                squares.Add(new Square($"-{i} -{i}.-{i} {i}.{i} -{i}.{i} {i}"));
             }
             _client.AddList("Test");
 
@@ -51,6 +51,7 @@ namespace Squares.Integration.Tests
             var response = _client.GetSquares("Test");
 
             CollectionAssert.AreEquivalent(squares, response.Squares);
+            CustomAsserts.SquarePointsAreSorted(response.Squares);
         }
 
         [Test]
@@ -60,7 +61,7 @@ namespace Squares.Integration.Tests
 
             for (int i = 1; i <= 10; i++)
             {
-                squares.Add(new Square($"-{i} -{i}.{i} -{i}.-{i} {i}.{i} {i}"));
+                squares.Add(new Square($"-{i} -{i}.-{i} {i}.{i} -{i}.{i} {i}"));
             }
             _client.AddList("Test");
 
@@ -79,6 +80,7 @@ namespace Squares.Integration.Tests
             var response = _client.GetSquares("Test");
 
             CollectionAssert.AreEquivalent(squares, response.Squares);
+            CustomAsserts.SquarePointsAreSorted(response.Squares);
         }
 
         [TestCase(1, 5)]
@@ -130,6 +132,7 @@ namespace Squares.Integration.Tests
 
             Assert.AreEqual(expectedResult, response.Squares.Count);
             CollectionAssert.AreEqual(orderedSquares, response.Squares);
+            CustomAsserts.SquarePointsAreSorted(response.Squares);
         }
 
         [TestCase(1, 10, 100)]
@@ -157,6 +160,7 @@ namespace Squares.Integration.Tests
             Assert.That(response.SquaresCount, Is.EqualTo(dataCount));
             Assert.That(response.Squares.Count, Is.EqualTo(pageSize));
             CollectionAssert.AreEqual(orderedSquares, response.Squares);
+            CustomAsserts.SquarePointsAreSorted(response.Squares);
         }
     }
 }

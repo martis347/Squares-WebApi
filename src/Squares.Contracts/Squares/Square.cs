@@ -18,6 +18,7 @@ namespace Squares.Contracts.Squares
                 new Point(values[2]),
                 new Point(values[3])
             };
+            Points = Points.OrderBy(c => c.X).ThenBy(c => c.Y).ToList();
         }
 
         public Square() : base("")
